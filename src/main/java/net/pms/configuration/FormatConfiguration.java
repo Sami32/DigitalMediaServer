@@ -167,6 +167,7 @@ public class FormatConfiguration {
 	public static final String und = "und";
 
 	private static class SupportSpec {
+		private int iMaxBitDepth = Integer.MAX_VALUE;
 		private int iMaxBitrate = Integer.MAX_VALUE;
 		private int iMaxFramerate = Integer.MAX_VALUE;
 		private int iMaxFrequency = Integer.MAX_VALUE;
@@ -179,6 +180,7 @@ public class FormatConfiguration {
 		private Pattern pVideoCodec;
 		private String audioCodec;
 		private String format;
+		private String maxBitDepth;
 		private String maxBitrate;
 		private String maxFramerate;
 		private String maxFrequency;
@@ -286,6 +288,16 @@ public class FormatConfiguration {
 				}
 			}
 
+			if (isNotBlank(maxBitDepth)) {
+				try {
+					iMaxBitDepth = Integer.parseInt(maxBitDepth);
+				} catch (NumberFormatException nfe) {
+					LOGGER.error("Error parsing maximum bit depth \"{}\": {}", maxBitDepth, nfe.getMessage());
+					LOGGER.trace("", nfe);
+					return false;
+				}
+			}
+
 			if (isNotBlank(maxBitrate)) {
 				try {
 					iMaxBitrate = Integer.parseInt(maxBitrate);
@@ -343,15 +355,16 @@ public class FormatConfiguration {
 		 *
 		 * Supported = f:mp4 n:2
 		 *
-		 * match("mp4", null, null, 2, 0, 0, 0, 0, 0, null) = true
-		 * match("mp4", null, null, 6, 0, 0, 0, 0, 0, null) = false
-		 * match("wav", null, null, 2, 0, 0, 0, 0, 0, null) = false
+		 * match("mp4", null, null, 2, 0, 0, 0, 0, 0, 0, null) = true
+		 * match("mp4", null, null, 6, 0, 0, 0, 0, 0, 0, null) = false
+		 * match("wav", null, null, 2, 0, 0, 0, 0, 0, 0, null) = false
 		 *
 		 * @param format
 		 * @param videoCodec
 		 * @param audioCodec
 		 * @param nbAudioChannels
 		 * @param frequency
+		 * @param bitDepth
 		 * @param bitrate
 		 * @param framerate
 		 * @param videoWidth
@@ -366,6 +379,7 @@ public class FormatConfiguration {
 			String audioCodec,
 			int nbAudioChannels,
 			int frequency,
+			int bitDepth,
 			int bitrate,
 			int framerate,
 			int videoWidth,
@@ -408,6 +422,11 @@ public class FormatConfiguration {
 
 			if (frequency > 0 && iMaxFrequency > 0 && frequency > iMaxFrequency) {
 				LOGGER.trace("Frequency \"{}\" failed to match support line {}", frequency, supportLine);
+				return false;
+			}
+
+			if (bitDepth > 0 && iMaxBitDepth > 0 && bitDepth > iMaxBitDepth) {
+				LOGGER.trace("Bit depth \"{}\" failed to match support line {}", bitDepth, supportLine);
 				return false;
 			}
 
@@ -564,6 +583,7 @@ public class FormatConfiguration {
 				null,
 				0,
 				0,
+				0,
 				media.getBitrate(),
 				frameRate,
 				media.getWidth(),
@@ -590,6 +610,7 @@ public class FormatConfiguration {
 				audio.getCodecA(),
 				audio.getAudioProperties().getNumberOfChannels(),
 				audio.getSampleRate(),
+				audio.getBitsperSample(),
 				audio.getBitRate(),
 				frameRate,
 				media.getWidth(),
@@ -607,6 +628,7 @@ public class FormatConfiguration {
 				audio.getCodecA(),
 				audio.getAudioProperties().getNumberOfChannels(),
 				audio.getSampleRate(),
+				audio.getBitsperSample(),
 				media.getBitrate(),
 				frameRate,
 				media.getWidth(),
@@ -635,6 +657,7 @@ public class FormatConfiguration {
 			0,
 			0,
 			0,
+			0,
 			null
 		);
 	}
@@ -645,6 +668,7 @@ public class FormatConfiguration {
 		String audioCodec,
 		int nbAudioChannels,
 		int frequency,
+		int bitDepth,
 		int bitrate,
 		int framerate,
 		int videoWidth,
@@ -660,6 +684,7 @@ public class FormatConfiguration {
 				audioCodec,
 				nbAudioChannels,
 				frequency,
+				bitDepth,
 				bitrate,
 				framerate,
 				videoWidth,
@@ -699,6 +724,8 @@ public class FormatConfiguration {
 				supportSpec.maxVideoHeight = token.substring(2).trim();
 			} else if (token.startsWith("m:")) {
 				supportSpec.mimeType = token.substring(2).trim();
+			} else if (token.startsWith("abit:")) {
+				supportSpec.mimeType = token.substring(5).trim();
 			} else if (token.startsWith("b:")) {
 				supportSpec.maxBitrate = token.substring(2).trim();
 			} else if (token.startsWith("fps:")) {
