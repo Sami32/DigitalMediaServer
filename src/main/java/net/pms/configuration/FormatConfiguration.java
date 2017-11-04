@@ -45,6 +45,7 @@ public class FormatConfiguration {
 	public static final String THREEGPP = "3gp";
 	public static final String THREEGPP2 = "3g2";
 	public static final String THREEGA = "3ga";
+	public static final String THREEG2A = "3g2a";
 	public static final String AAC_LC = "aac-lc";
 	public static final String AAC_LTP = "aac-ltp";
 	public static final String AAC_MAIN = "aac-main";
@@ -62,6 +63,7 @@ public class FormatConfiguration {
 	public static final String ATMOS = "atmos";
 	public static final String ATRAC = "atrac";
 	public static final String AU = "au";
+	public static final String AV1 = "av1";
 	public static final String AVI = "avi";
 	public static final String BMP = "bmp";
 	public static final String CAF = "caf";
@@ -109,6 +111,7 @@ public class FormatConfiguration {
 	public static final String MLP = "mlp";
 	public static final String MONKEYS_AUDIO = "ape";
 	public static final String MOV = "mov";
+	public static final String MP1 = "mp1";
 	public static final String MP2 = "mp2";
 	public static final String MP3 = "mp3";
 	public static final String MP4 = "mp4";
@@ -120,6 +123,7 @@ public class FormatConfiguration {
 	public static final String MPEG4SP = "mpeg4sp";
 	public static final String MPEGPS = "mpegps";
 	public static final String MPEGTS = "mpegts";
+	public static final String MXF = "mxf";
 	public static final String NELLYMOSER = "nellymoser";
 	public static final String OGG = "ogg";
 	/** OGG container with only audio track */
@@ -151,6 +155,7 @@ public class FormatConfiguration {
 	public static final String TRUEHD = "truehd";
 	public static final String TTA = "tta";
 	public static final String VC1 = "vc1";
+	public static final String VC3 = "vc3";
 	public static final String VORBIS = "vorbis";
 	public static final String VP6 = "vp6";
 	public static final String VP7 = "vp7";

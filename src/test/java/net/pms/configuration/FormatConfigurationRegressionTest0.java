@@ -889,4 +889,28 @@ public class FormatConfigurationRegressionTest0 {
 		// Regression assertion (captures the current behavior of the code)
 		assertTrue("'" + str0 + "' != '" + "dolbye"+ "'", str0.equals("dolbye"));
 	}
+
+	@Test
+	public void testAV1() throws Throwable {
+		String str0 = net.pms.configuration.FormatConfiguration.AV1;
+
+		// Regression assertion (captures the current behavior of the code)
+		assertTrue("'" + str0 + "' != '" + "av1"+ "'", str0.equals("av1"));
+	}
+
+	@Test
+	public void testMXF() throws Throwable {
+		String str0 = net.pms.configuration.FormatConfiguration.MXF;
+
+		// Regression assertion (captures the current behavior of the code)
+		assertTrue("'" + str0 + "' != '" + "mxf"+ "'", str0.equals("mxf"));
+	}
+
+	@Test
+	public void testVC3() throws Throwable {
+		String str0 = net.pms.configuration.FormatConfiguration.VC3;
+
+		// Regression assertion (captures the current behavior of the code)
+		assertTrue("'" + str0 + "' != '" + "vc3"+ "'", str0.equals("vc3"));
+	}
 }
